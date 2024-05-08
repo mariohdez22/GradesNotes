@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/calendario"
+        android:icon="@drawable/icon_calendar"
+        android:title="@string/calendario"
+        />
+
+    <item
+        android:id="@+id/listado"
+        android:icon="@drawable/icon_calendar"
+        android:title="@string/lista"
+
+        />
+
+    <item
+        android:id="@+id/painter"
+        android:icon="@drawable/icon_calendar"
+        android:title="@string/escrituraManual"
+        />
+
+    <item
+        android:id="@+id/extractor"
+        android:icon="@drawable/icon_calendar"
+        android:title="@string/textoImagen"
+        />
+
+</menu>

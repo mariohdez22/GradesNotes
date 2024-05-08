@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".AgregarNotas.AgregarNota">
     
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="45dp"
             android:background="@color/white"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
             tools:ignore="MissingConstraints"
-            tools:ingnore="MissingConstrains"
-            />
+            tools:ingnore="MissingConstrains" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,31 +65,43 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:src="@drawable/icon_time"
                     android:layout_marginStart="8dp"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"/>
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/opensans"
                     android:text="@string/Fecha_hora_actual_Txt"
-                    android:textSize="20sp"
+                    android:visibility="gone"
                     android:textColor="@color/black500"
-                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/FechaActual"
+                    android:hint="@string/Fecha_hora_actual"
+                    android:textSize="14sp"
+                    android:textColor="@color/black500"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/opensans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/FechaActual"
-                    android:hint="@string/Fecha_hora_actual"
-                    android:textSize="18sp"
-                    android:textColor="@color/black700"
-                    android:layout_marginStart="8dp"
+                    android:id="@+id/Fecha"
+                    android:hint="@string/Fecha"
+                    android:layout_marginStart="20dp"
                     android:fontFamily="@font/opensans"
+                    android:textSize="14sp"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
@@ -107,36 +119,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/Btn_Calendario"
-                    android:text="@string/Btn_Calendario"
-                    android:backgroundTint="@color/red400"
-                    app:icon="@drawable/icon_calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/Fecha"
-                    android:hint="@string/Fecha"
-                    android:layout_marginLeft="15dp"
-                    android:fontFamily="@font/opensans"
-                    android:textSize="25sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/Estado"
                 android:text="@string/Estado"
                 android:textSize="20sp"
+                android:visibility="gone"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/opensans"
@@ -147,4 +134,19 @@
 
     </LinearLayout>
 
-</ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#FBFBFB"
+        app:itemIconTint="@color/black800"
+        app:itemTextColor="@color/black800"
+        app:menu="@menu/bottom_menu"
+        android:id="@+id/navmenu"
+        app:labelVisibilityMode="labeled"
+        app:itemTextAppearanceActiveBoldEnabled="false"
+        app:itemTextAppearanceActive="@font/opensans"
+        app:itemTextAppearanceInactive="@font/opensans"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
