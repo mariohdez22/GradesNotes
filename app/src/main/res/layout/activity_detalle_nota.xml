@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Detalle.DetalleNota">
+
+    <LinearLayout
+        android:padding="5dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Linea Detalle -->
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/Id_nota_DetalleTxt"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/opensans"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/IdNotaD"
+                android:text="@string/Id_nota_Detalle"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/opensans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <!-- Linea Detalle -->
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/Uid_usuario_DetalleTxt"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/opensans"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/UidUsuarioD"
+                android:text="@string/Uid_usuario_Detalle"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/opensans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <!-- Linea Detalle -->
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/Correo_usuario_DetalleTxt"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/opensans"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/CorreoUsuarioD"
+                android:text="@string/Correo_usuario_Detalle"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/opensans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <!-- Linea Detalle -->
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/Titulo_DetalleTxt"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/opensans"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/TituloNotaD"
+                android:text="@string/Titulo_Detalle"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/opensans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <!-- Linea Detalle -->
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/Descripcion_DetalleTxt"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/opensans"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/DescripcionD"
+                android:text="@string/Descripcion_Detalle"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/opensans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <!-- Linea Detalle -->
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/Fecha_Registro_DetalleTxt"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/opensans"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/FechaRegistroD"
+                android:text="@string/Fecha_Registro_Detalle"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/opensans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <!-- Linea Detalle -->
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/Fecha_Nota_DetalleTxt"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/opensans"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/FechaNotaD"
+                android:text="@string/Fecha_Nota_Detalle"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/opensans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <!-- Linea Detalle -->
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/Estado_DetalleTxt"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/opensans"
+                android:textSize="20sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/EstadoD"
+                android:text="@string/Estado_Detalle"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/opensans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <!--BOTÓN IMPORTANTE-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#34495E">
+
+            <Button
+                android:id="@+id/Boton_Importante"
+                android:text="@string/Boton_Importante"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/opensans"
+                android:drawableTop="@drawable/icon_nota"
+                android:textColor="#fff"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

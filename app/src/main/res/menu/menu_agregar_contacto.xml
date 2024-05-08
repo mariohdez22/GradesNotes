@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/Buscar_contactos"
+        android:title="@string/Buscar_contactos"
+        android:icon="@drawable/icon_time"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView">
+
+    </item>
+
+    <item
+        android:id="@+id/Agregar_contacto"
+        android:title="@string/Agregar_contacto"
+        android:icon="@drawable/icon_usuario"
+        app:showAsAction="ifRoom"
+        >
+
+    </item>
+
+    <item
+        android:id="@+id/Vaciar_contactos"
+        android:title="@string/Vaciar_contactos"
+        android:icon="@drawable/icon_delete"
+        app:showAsAction="ifRoom"
+        >
+
+    </item>
+
+</menu>

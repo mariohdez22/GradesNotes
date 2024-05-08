@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812110200282",
+    "project_id": "skript-88246",
+    "storage_bucket": "skript-88246.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812110200282:android:304366f4ed29f9c36914e3",
+        "android_client_info": {
+          "package_name": "com.example.gradesnotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGjtOTRPyZmK-XEU_rsTNLdk-sKoYtyho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
