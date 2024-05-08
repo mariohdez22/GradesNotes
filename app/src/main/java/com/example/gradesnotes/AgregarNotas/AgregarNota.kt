@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.gradesnotes.Modelos.Nota
 import com.example.gradesnotes.R
+import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
@@ -26,11 +28,10 @@ class AgregarNota : AppCompatActivity() {
     private lateinit var fechaActual: TextView
     private lateinit var fecha: TextView
     private lateinit var estado: TextView
+    private lateinit var navegacion : NavigationBarView
 
     private lateinit var titulo: EditText
     private lateinit var descripcion: EditText
-
-    private lateinit var btnCalendario: Button
 
     private lateinit var dbFirebase:DatabaseReference
 
@@ -38,35 +39,19 @@ class AgregarNota : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_agregar_nota)
 
-        val actionBar = supportActionBar
-        actionBar?.title = ""
-        actionBar?.setDisplayShowHomeEnabled(true)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = "Agregar Nota"
+            titleColor = resources.getColor(R.color.black800)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
 
         inicializarVariables()
         obtenerDatos()
         obtenerFechaHoraActual()
-
-        btnCalendario.setOnClickListener {
-            val calendario = Calendar.getInstance()
-            val dia = calendario.get(Calendar.DAY_OF_MONTH)
-            val mes = calendario.get(Calendar.MONTH)
-            val anio = calendario.get(Calendar.YEAR)
-
-            val datePickerDialog = DatePickerDialog(this, { _, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
-                val diaFormateado = if (diaSeleccionado < 10) "0$diaSeleccionado" else "$diaSeleccionado"
-                val mesAjustado = mesSeleccionado + 1
-                val mesFormateado = if (mesAjustado < 10) "0$mesAjustado" else "$mesAjustado"
-
-                fecha.text = "$diaFormateado/$mesFormateado/$anioSeleccionado"
-            }, anio, mes, dia)
-
-            datePickerDialog.show()
-        }
-
     }
 
     private fun inicializarVariables() {
@@ -75,10 +60,11 @@ class AgregarNota : AppCompatActivity() {
         fechaActual = findViewById(R.id.FechaActual)
         fecha = findViewById(R.id.Fecha)
         estado = findViewById(R.id.Estado)
+        navegacion = findViewById(R.id.navmenu)
+        navegacion.setOnItemSelectedListener(opcionMenuSeleccionado)
 
         titulo = findViewById(R.id.Titulo)
         descripcion = findViewById(R.id.Descripcion)
-        btnCalendario = findViewById(R.id.Btn_Calendario)
 
         dbFirebase = FirebaseDatabase.getInstance().reference
     }
@@ -92,7 +78,7 @@ class AgregarNota : AppCompatActivity() {
     }
 
     private fun obtenerFechaHoraActual() {
-        val fechaHoraRegistro = SimpleDateFormat("dd-MM-yyyy/HH:mm:ss", Locale.getDefault()).format(System.currentTimeMillis())
+        val fechaHoraRegistro = SimpleDateFormat("dd MMM yyyy h:mm a", Locale.getDefault()).format(System.currentTimeMillis())
         fechaActual.text = fechaHoraRegistro
     }
 
@@ -161,5 +147,42 @@ class AgregarNota : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
+    private val opcionMenuSeleccionado = NavigationBarView.OnItemSelectedListener{
+
+        item -> when(item.itemId){
+
+            R.id.calendario -> {
+
+                val calendario = Calendar.getInstance()
+                val dia = calendario.get(Calendar.DAY_OF_MONTH)
+                val mes = calendario.get(Calendar.MONTH)
+                val anio = calendario.get(Calendar.YEAR)
+
+                val datePickerDialog = DatePickerDialog(this, { _, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
+                    val diaFormateado = if (diaSeleccionado < 10) "0$diaSeleccionado" else "$diaSeleccionado"
+                    val mesAjustado = mesSeleccionado + 1
+                    val mesFormateado = if (mesAjustado < 10) "0$mesAjustado" else "$mesAjustado"
+
+                    fecha.visibility = View.VISIBLE
+                    fecha.text = "$diaFormateado/$mesFormateado/$anioSeleccionado"
+                }, anio, mes, dia)
+
+                datePickerDialog.show()
+            }
+            R.id.listado -> {
+
+                Toast.makeText(this, "Listado", Toast.LENGTH_SHORT).show()
+            }
+            R.id.painter -> {
+
+                Toast.makeText(this, "Escritura manual", Toast.LENGTH_SHORT).show()
+            }
+            R.id.extractor -> {
+
+                Toast.makeText(this, "Extractor texto", Toast.LENGTH_SHORT).show()
+            }
+        }
+        false
+    }
 
 }

@@ -227,4 +227,10 @@
     <string name="Version">Versión: 1.0</string>
     <string name="EntendidoInfo">Entendido</string>
 
+    <!--OPCIONES MENU BOTTOM NAVIGATION - AGREGAR NOTA-->
+    <string name="calendario">Calendario</string>
+    <string name="lista">Lista</string>
+    <string name="escrituraManual">Escritura Manual</string>
+    <string name="textoImagen">Extraer Texto</string>
+
 </resources>

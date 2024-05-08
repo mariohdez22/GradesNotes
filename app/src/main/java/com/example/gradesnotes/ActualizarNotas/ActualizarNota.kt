@@ -65,13 +65,14 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_actualizar_nota)
 
-        val actionBar = supportActionBar
-        actionBar?.title = "Actualizar Nota"
-        actionBar?.setDisplayShowHomeEnabled(true)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-
         val toolbar = findViewById<Toolbar>(R.id.EditToolbar)
         setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = "Editar Nota"
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
 
         InicializarVariables()
         RecuperarDatos()

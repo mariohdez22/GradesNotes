@@ -11,7 +11,7 @@
             android:id="@+id/ListaToolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="@color/red400"
+            android:background="@color/WhiteBlue"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
             tools:ignore="MissingConstraints"
             tools:ingnore="MissingConstrains"/>

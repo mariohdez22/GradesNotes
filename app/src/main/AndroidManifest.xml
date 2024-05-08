@@ -52,7 +52,8 @@
             android:exported="false" />
         <activity
             android:name=".ActualizarNotas.ActualizarNota"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AgregarEditarNotas"/>
         <activity
             android:name=".Perfiles.PerfilUsuario"
             android:exported="false" />
@@ -61,7 +62,8 @@
             android:exported="false" />
         <activity
             android:name=".AgregarNotas.AgregarNota"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AgregarEditarNotas"/>
         <activity
             android:name=".MenuPrincipal"
             android:exported="false"
