@@ -1,12 +1,23 @@
 package com.example.gradesnotes.AgregarNotas
 
+import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -14,7 +25,11 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.transition.Visibility
 import com.example.gradesnotes.DrawNota.DrawView
 import com.example.gradesnotes.DrawNota.StrokeManager.clear
 import com.example.gradesnotes.DrawNota.StrokeManager.download
@@ -24,9 +39,14 @@ import com.example.gradesnotes.R
 import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.mlkit.vision.common.InputImage
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import com.google.mlkit.vision.text.Text
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
 class AgregarNota : AppCompatActivity() {
 
@@ -40,6 +60,9 @@ class AgregarNota : AppCompatActivity() {
     private lateinit var linearDraw: LinearLayout
     private lateinit var scrollNota: ScrollView
     private var menu: Menu? = null
+    private var uri: Uri? = null
+    private lateinit var dialog : Dialog
+    lateinit var textRecognizer : TextRecognizer
 
     private lateinit var titulo: EditText
     private lateinit var descripcion: EditText
@@ -86,6 +109,8 @@ class AgregarNota : AppCompatActivity() {
         drawView = findViewById(R.id.draw_view)
 
         dbFirebase = FirebaseDatabase.getInstance().reference
+
+        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
     }
 
     private fun obtenerDatos() {
@@ -230,8 +255,8 @@ class AgregarNota : AppCompatActivity() {
             R.id.painter -> {
 
                 menu?.findItem(R.id.Agregar_Nota_BD)?.isVisible = false
-                menu?.findItem(R.id.ExtraerTexto)?.isVisible = true
-                menu?.findItem(R.id.LimpiarDibujo)?.isVisible = true
+                menu?.findItem(R.id.ExtraerTexto)?.isVisible = false
+                menu?.findItem(R.id.LimpiarDibujo)?.isVisible = false
 
                 val layoutParams = scrollNota.layoutParams
                 layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -242,10 +267,147 @@ class AgregarNota : AppCompatActivity() {
             }
             R.id.extractor -> {
 
-                Toast.makeText(this, "Extractor texto", Toast.LENGTH_SHORT).show()
+                dialog = Dialog(this)
+                dialog.setContentView(R.layout.cuadro_dialogo_elegir_imagen)
+
+                dialog.show()
+
+                var btnElegirGaleria = dialog.findViewById<Button>(R.id.Btn_Elegir_Galeria)
+                var btnElegirCamara = dialog.findViewById<Button>(R.id.Btn_Elegir_Camara)
+
+                btnElegirCamara.setOnClickListener {
+                    abrirCamara()
+
+                    dialog.dismiss()
+                }
+
+                btnElegirGaleria.setOnClickListener {
+                    abrirGaleria()
+
+                    dialog.dismiss()
+                }
+
             }
         }
         false
+    }
+
+    private fun reconocerTexto(){
+
+        uri = Uri.parse(descripcion.text.toString())
+        descripcion.setText("")
+
+        if(uri != null){
+
+
+        }
+
+    }
+
+    private fun abrirGaleria(){
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED){
+            var intent = Intent(Intent.ACTION_PICK)
+            intent.setType("image/*")
+            galeriaARL.launch(intent)
+        }
+        else{
+            permisoGaleriaARL.launch(Manifest.permission.READ_MEDIA_IMAGES)
+        }
+    }
+
+    private fun abrirCamara(){
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            var values = ContentValues()
+
+            values.put(MediaStore.Images.Media.TITLE, "Titulo")
+            values.put(MediaStore.Images.Media.DESCRIPTION, "Descripcion")
+
+            uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+
+            camaraARL.launch(intent)
+        }else{
+            permisoCamaraARL.launch(Manifest.permission.CAMERA)
+        }
+
+        reconocerTexto()
+    }
+
+    private var galeriaARL = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){
+            result : ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK){
+            var data = result.data
+            if (data != null) {
+
+                uri = data.data
+
+                var inputImage = InputImage.fromFilePath(this, uri!!)
+
+                var textTask = textRecognizer.process(inputImage)
+                    .addOnSuccessListener {
+                            text : Text ->
+                        var texto = text.text
+                        descripcion.setText(texto)
+                    }
+                    .addOnFailureListener {
+                            e : Exception ->
+                        Toast.makeText(this, "Error -> " + e.message, Toast.LENGTH_SHORT).show()
+                    }
+                Toast.makeText(this, "FOTO SELECCIONADA CON EXITO", Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            Toast.makeText(this, "CANCELADO POR EL USUARIO", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var camaraARL = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){
+            result : ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK){
+            if(uri != null){
+                var inputImage = InputImage.fromFilePath(this, uri!!)
+
+                var textTask = textRecognizer.process(inputImage)
+                    .addOnSuccessListener {
+                            text : Text ->
+                        var texto = text.text
+                        descripcion.setText(texto)
+                    }
+                    .addOnFailureListener {
+                            e : Exception ->
+                        Toast.makeText(this, "Error -> " + e.message, Toast.LENGTH_SHORT).show()
+                    }
+                Toast.makeText(this, "FOTO TOMADA CON EXITO", Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            Toast.makeText(this, "CANCELADO POR EL USUARIO", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var permisoCamaraARL = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            abrirCamara()
+        } else {
+            Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var permisoGaleriaARL = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            abrirGaleria()
+        } else {
+            Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
