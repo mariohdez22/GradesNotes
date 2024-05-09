@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Perfiles.EditarImagenPerfil">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -13,32 +14,70 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ImagenPerfilActualizar"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
+        <TextView
+            android:text="Agrega una imagen de perfil"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:paddingStart="60dp"
+            android:paddingEnd="60dp"
+            android:textColor="@color/black700"
+            android:fontFamily="@font/raleway_regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardImgPerfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="#354F60"
-            android:scaleType="centerCrop"
-            android:src="@drawable/imagen_perfil_usuario"/>
+            android:layout_marginTop="40dp"
+            android:visibility="visible"
+            app:cardCornerRadius="400dp"
+            app:cardElevation="0dp">
 
-        <Button
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ImagenPerfilActualizar"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                android:background="@color/red300"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_perfil"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/BtnElegirImagenDe"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/opensans"
+            app:strokeColor="@color/red300"
             android:text="@string/BtnElegirImagenDe"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/opensans"
-            app:icon="@drawable/icon_save"/>
+            app:cornerRadius="10dp"
+            android:textColor="@color/red300"
+            android:layout_marginTop="35dp"
+            app:iconTint="@color/red300"
+            app:icon="@drawable/icon_save"
+            style="?attr/materialButtonOutlinedStyle"
+            />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/BtnActualizarImagen"
-            android:text="@string/BtnActualizarImagen"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:textSize="16sp"
             android:fontFamily="@font/opensans"
-            app:icon="@drawable/icon_save"/>
+            app:strokeColor="@color/red300"
+            android:text="@string/BtnActualizarImagen"
+            app:cornerRadius="10dp"
+            android:textColor="@color/red300"
+            android:layout_marginTop="15dp"
+            app:iconTint="@color/red300"
+            app:icon="@drawable/icon_editar"
+            style="?attr/materialButtonOutlinedStyle"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

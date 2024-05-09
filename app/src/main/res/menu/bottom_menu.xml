@@ -9,20 +9,20 @@
 
     <item
         android:id="@+id/listado"
-        android:icon="@drawable/icon_calendar"
+        android:icon="@drawable/icon_lista"
         android:title="@string/lista"
 
         />
 
     <item
         android:id="@+id/painter"
-        android:icon="@drawable/icon_calendar"
+        android:icon="@drawable/icon_email"
         android:title="@string/escrituraManual"
         />
 
     <item
         android:id="@+id/extractor"
-        android:icon="@drawable/icon_calendar"
+        android:icon="@drawable/icon_about"
         android:title="@string/textoImagen"
         />
 

@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.example.gradesnotes.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -42,6 +43,15 @@ class DetalleNota : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalle_nota)
+
+        val toolbar = findViewById<Toolbar>(R.id.DetalleToolbar)
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = "Detalles de la nota"
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
 
         RecuperarDatos()
         InicializarVistas()
@@ -193,7 +203,7 @@ class DetalleNota : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return super.onSupportNavigateUp()
     }
 

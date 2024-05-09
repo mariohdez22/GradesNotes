@@ -23,112 +23,169 @@
             tools:ignore="MissingConstraints"
             tools:ingnore="MissingConstrains" />
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/scrollNota"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/UidUsuario"
-                android:hint="@string/Uid_Usuario"
-                android:textSize="18sp"
-                android:visibility="gone"
-                android:fontFamily="@font/opensans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/CorreoUsuario"
-                android:hint="@string/Correo_usuario"
-                android:textSize="18sp"
-                android:visibility="gone"
-                android:fontFamily="@font/opensans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:id="@+id/Titulo"
-                android:hint="@string/Titulo"
-                android:textSize="25sp"
-                android:textColorHint="@color/black600"
-                android:background="@android:color/transparent"
-                android:textStyle="bold"
-                android:paddingStart="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:fontFamily="@font/raleway_medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:src="@drawable/icon_time"
-                    android:layout_marginStart="8dp"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"/>
+                android:orientation="vertical"
+                android:padding="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/opensans"
-                    android:text="@string/Fecha_hora_actual_Txt"
+                    android:id="@+id/UidUsuario"
+                    android:hint="@string/Uid_Usuario"
+                    android:textSize="18sp"
                     android:visibility="gone"
-                    android:textColor="@color/black500"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/FechaActual"
-                    android:hint="@string/Fecha_hora_actual"
-                    android:textSize="14sp"
-                    android:textColor="@color/black500"
-                    android:layout_marginStart="8dp"
                     android:fontFamily="@font/opensans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/Fecha"
-                    android:hint="@string/Fecha"
-                    android:layout_marginStart="20dp"
-                    android:fontFamily="@font/opensans"
-                    android:textSize="14sp"
+                    android:id="@+id/CorreoUsuario"
+                    android:hint="@string/Correo_usuario"
+                    android:textSize="18sp"
                     android:visibility="gone"
+                    android:fontFamily="@font/opensans"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <EditText
+                    android:id="@+id/Titulo"
+                    android:hint="@string/Titulo"
+                    android:textSize="25sp"
+                    android:textColorHint="@color/black600"
+                    android:textColor="@color/black700"
+                    android:background="@android:color/transparent"
+                    android:textStyle="bold"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:fontFamily="@font/raleway_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:src="@drawable/icon_time"
+                        android:layout_marginStart="8dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/opensans"
+                        android:text="@string/Fecha_hora_actual_Txt"
+                        android:visibility="gone"
+                        android:textColor="@color/black500"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/FechaActual"
+                        android:hint="@string/Fecha_hora_actual"
+                        android:textSize="14sp"
+                        android:textColor="@color/black500"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/opensans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearPendiente"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:src="@drawable/icon_timer"
+                        android:layout_marginStart="8dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:tint="@color/GrayClare" />
+
+                    <TextView
+                        android:id="@+id/Fecha"
+                        android:hint="@string/Fecha"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/opensans"
+                        android:textColor="@color/black500"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="@string/TituloEstado"
+                        android:textSize="14sp"
+                        android:textColor="@color/black500"
+                        android:layout_marginStart="5dp"
+                        android:paddingBottom="3dp"
+                        android:fontFamily="@font/opensans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/Estado"
+                        android:text="@string/Estado"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        android:textColor="@color/black500"
+                        android:layout_marginStart="5dp"
+                        android:paddingBottom="3dp"
+                        android:fontFamily="@font/opensans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/Descripcion"
+                    android:hint="@string/Descripcion"
+                    android:textColor="@color/black700"
+                    android:background="@android:color/transparent"
+                    android:minHeight="640dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:gravity="start"
+                    android:visibility="visible"
+                    android:fontFamily="@font/opensans"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/Descripcion"
-                android:hint="@string/Descripcion"
-                android:background="@android:color/transparent"
-                android:layout_marginTop="10dp"
-                android:minHeight="400dp"
-                android:padding="10dp"
-                android:gravity="start"
-                android:fontFamily="@font/opensans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+        </ScrollView>
 
-            <TextView
-                android:id="@+id/Estado"
-                android:text="@string/Estado"
-                android:textSize="20sp"
-                android:visibility="gone"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/opensans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:id="@+id/linearDraw"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.example.gradesnotes.DrawNota.DrawView
+                android:id="@+id/draw_view"
+                android:layout_width="match_parent"
+                android:layout_height="640dp"
+                android:background="@color/white">
+
+            </com.example.gradesnotes.DrawNota.DrawView>
 
         </LinearLayout>
 
@@ -139,8 +196,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="#FBFBFB"
-        app:itemIconTint="@color/black800"
-        app:itemTextColor="@color/black800"
+        app:itemIconTint="@color/black700"
+        app:itemTextColor="@color/black700"
         app:menu="@menu/bottom_menu"
         android:id="@+id/navmenu"
         app:labelVisibilityMode="labeled"

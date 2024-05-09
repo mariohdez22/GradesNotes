@@ -7,14 +7,15 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
 import com.example.gradesnotes.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -33,15 +34,14 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var fechaA: TextView
     private lateinit var estadoA: TextView
     private lateinit var estadoNuevo: TextView
+    private lateinit var linearPendiente: LinearLayout
 
     private lateinit var tituloA: EditText
     private lateinit var descripcionA: EditText
 
-    private lateinit var btnCalendarioA: Button
-
     // ImageView para indicar el estado de la tarea
-    private lateinit var tareaFinalizada: ImageView
-    private lateinit var tareaNoFinalizada: ImageView
+    private lateinit var tareaFinalizada: CardView
+    private lateinit var tareaNoFinalizada: CardView
 
     // Spinner para seleccionar el nuevo estado
     private lateinit var spinnerEstado: Spinner
@@ -79,12 +79,10 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         SetearDatos()
         ComprobarEstadoNota()
         SpinnerEstado()
-        btnCalendarioA.setOnClickListener {
-
-            SeleccionarFecha()
-        }
 
     }
+
+    //----------------------------------------------------------------------------------------------
 
     private fun InicializarVariables(){
 
@@ -95,11 +93,10 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         fechaA = findViewById(R.id.Fecha_A)
         estadoA = findViewById(R.id.Estado_A)
         estadoNuevo = findViewById(R.id.Estado_nuevo)
+        linearPendiente = findViewById(R.id.linearPendiente)
 
         tituloA = findViewById(R.id.Titulo_A)
         descripcionA = findViewById(R.id.Descripcion_A)
-
-        btnCalendarioA = findViewById(R.id.Btn_Calendario_A)
 
         tareaFinalizada = findViewById(R.id.Tarea_Finalizada)
         tareaNoFinalizada = findViewById(R.id.Tarea_No_Finalizada)
@@ -107,6 +104,8 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         spinnerEstado = findViewById(R.id.Spinner_estado)
 
     }
+
+    //----------------------------------------------------------------------------------------------
 
     private fun RecuperarDatos(){
 
@@ -122,6 +121,8 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         estadoR = intent?.getString("estado")
     }
 
+    //----------------------------------------------------------------------------------------------
+
     private fun SetearDatos() {
 
         idNotaA.text = idNotaR
@@ -134,14 +135,28 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         estadoA.text = estadoR
     }
 
+    //----------------------------------------------------------------------------------------------
+
     private fun ComprobarEstadoNota() {
+
         val estadoNota = estadoA.text.toString()
 
-        when (estadoNota) {
-            "No finalizado" -> tareaNoFinalizada.visibility = View.VISIBLE
-            "Finalizado" -> tareaFinalizada.visibility = View.VISIBLE
+        if (estadoNota.isNotEmpty()) {
+
+            linearPendiente.visibility = View.VISIBLE
+
+            when (estadoNota) {
+                "pendiente" -> tareaNoFinalizada.visibility = View.VISIBLE
+                "finalizado" -> tareaFinalizada.visibility = View.VISIBLE
+            }
+
+        }else{
+
+            linearPendiente.visibility = View.GONE
         }
     }
+
+    //----------------------------------------------------------------------------------------------
 
     private fun SeleccionarFecha(){
 
@@ -161,23 +176,36 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         datePickerDialog.show()
     }
 
+    //----------------------------------------------------------------------------------------------
+
     private fun SpinnerEstado() {
         val adapter = ArrayAdapter.createFromResource(
             this,
             R.array.Estados_nota,
-            android.R.layout.simple_spinner_item
+            R.layout.spinner_item
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.spinner_item)
         spinnerEstado.adapter = adapter
         spinnerEstado.onItemSelectedListener = this
+
+        val estadoActual : String = estadoA.text.toString()
+        val estados = resources.getStringArray(R.array.Estados_nota)
+        spinnerEstado.setSelection(estados.indexOf(estadoActual))
     }
+
+    //----------------------------------------------------------------------------------------------
 
     private fun ActualizarNotaDB(){
 
         val tituloActualizar = tituloA.text.toString()
         val descripcionActualizar = descripcionA.text.toString()
         val fechaActualizar = fechaA.text.toString()
-        val estadoActualizar = estadoNuevo.text.toString()
+        val estadoActualizar: String
+
+        if(estadoA.text.isEmpty())
+            estadoActualizar = ""
+        else
+            estadoActualizar = estadoNuevo.text.toString()
 
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val databaseReference =firebaseDatabase.getReference("NotasPublicadas")
@@ -206,15 +234,19 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     }
 
+    //----------------------------------------------------------------------------------------------
+
     override fun onItemSelected(adapterView: AdapterView<*>, view: View?, i: Int, l: Long) {
 
-        val ESTADO_ACTUAL: String = estadoA.text.toString()
-        val Posicion_1 = adapterView.getItemAtPosition(1).toString()
         val estado_seleccionado = adapterView.getItemAtPosition(i).toString()
         estadoNuevo.text = estado_seleccionado
 
-        if (ESTADO_ACTUAL == "Finalizado") {
-            estadoNuevo.text = Posicion_1
+        if (estado_seleccionado == "pendiente") {
+            tareaNoFinalizada.visibility = View.VISIBLE
+            tareaFinalizada.visibility = View.GONE
+        }else {
+            tareaFinalizada.visibility = View.VISIBLE
+            tareaNoFinalizada.visibility = View.GONE
         }
     }
 

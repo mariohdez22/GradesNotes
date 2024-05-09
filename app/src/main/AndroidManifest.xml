@@ -28,7 +28,8 @@
         android:theme="@style/Theme.GradesNotes">
         <activity
             android:name=".ActualizarPass.ActualizarPassUsuario"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/PerfilUsuario"/>
         <activity
             android:name=".Contactos.AgregarContacto"
             android:exported="false" />
@@ -43,23 +44,28 @@
             android:exported="false" />
         <activity
             android:name=".NotasImportantes.NotaImportante"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/ListarNotas"/>
         <activity
             android:name=".Perfiles.EditarImagenPerfil"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/PerfilUsuario"/>
         <activity
             android:name=".Detalle.DetalleNota"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AgregarEditarNotas"/>
         <activity
             android:name=".ActualizarNotas.ActualizarNota"
             android:exported="false"
             android:theme="@style/AgregarEditarNotas"/>
         <activity
             android:name=".Perfiles.PerfilUsuario"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/PerfilUsuario"/>
         <activity
             android:name=".ListarNotas.ListarNota"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/ListarNotas"/>
         <activity
             android:name=".AgregarNotas.AgregarNota"
             android:exported="false"

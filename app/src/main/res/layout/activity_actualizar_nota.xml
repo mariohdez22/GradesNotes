@@ -1,182 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ActualizarNotas.ActualizarNota">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/EditToolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/red400"
+            android:layout_height="45dp"
+            android:background="@color/white"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
             tools:ignore="MissingConstraints"
             tools:ingnore="MissingConstrains" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_height="match_parent">
 
-            <!--ID NOTA-->
-            <TextView
-                android:id="@+id/Id_nota_A"
-                android:text="@string/Id_nota_A"
-                android:textSize="18sp"
-                android:visibility="gone"
-                android:fontFamily="@font/opensans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <!--UID DEL USUARIO-->
-            <TextView
-                android:id="@+id/Uid_Usuario_A"
-                android:hint="@string/Uid_Usuario_A"
-                android:textSize="18sp"
-                android:visibility="gone"
-                android:fontFamily="@font/opensans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <!--CORREO DEL USUARIO-->
-            <TextView
-                android:id="@+id/Correo_usuario_A"
-                android:hint="@string/Correo_usuario_A"
-                android:textSize="18sp"
-                android:visibility="gone"
-                android:fontFamily="@font/opensans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <!--FECHA DE REGISTRO-->
-            <TextView
-                android:id="@+id/Fecha_registro_A"
-                android:hint="@string/Fecha_registro_A"
-                android:textSize="18sp"
-                android:visibility="gone"
-                android:fontFamily="@font/opensans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <!--ESTADO DE LA NOTA-->
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/Tarea_Finalizada"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:visibility="gone"
-                    android:background="#16A085"/>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/Tarea_No_Finalizada"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:visibility="gone"
-                    android:layout_marginStart="5dp"
-                    android:background="#E74C3C"/>
-
-
+                <!--ID NOTA-->
                 <TextView
-                    android:id="@+id/Estado_A"
-                    android:text="@string/Estado_A"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/opensans"
-                    android:layout_marginStart="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <!--TITULO-->
-            <EditText
-                android:id="@+id/Titulo_A"
-                android:hint="@string/Titulo_A"
-                android:textSize="25sp"
-                android:background="@android:color/transparent"
-                android:textStyle="bold"
-                android:layout_marginTop="15dp"
-                android:paddingStart="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:fontFamily="@font/opensans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <!--DESCRIPCION-->
-            <EditText
-                android:id="@+id/Descripcion_A"
-                android:hint="@string/Descripcion_A"
-                android:background="@android:color/transparent"
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:minHeight="400dp"
-                android:padding="10dp"
-                android:gravity="start"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <!--BOTÓN PARA ABRIR CALENDARIO-->
-                <Button
-                    android:id="@+id/Btn_Calendario_A"
-                    android:text="@string/Btn_Calendario_A"
-                    android:backgroundTint="@color/red400"
-                    app:icon="@drawable/icon_calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <!--VISUALIZAR FECHA ELEGIDA-->
-                <TextView
-                    android:id="@+id/Fecha_A"
-                    android:hint="@string/Fecha_A"
-                    android:textSize="20sp"
-                    android:layout_marginStart="15dp"
+                    android:id="@+id/Id_nota_A"
+                    android:text="@string/Id_nota_A"
+                    android:textSize="18sp"
+                    android:visibility="gone"
                     android:fontFamily="@font/opensans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <Spinner
-                    android:id="@+id/Spinner_estado"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
-
                 <TextView
-                    android:id="@+id/Estado_nuevo"
-                    android:text="@string/Estado_nuevo"
+                    android:id="@+id/Uid_Usuario_A"
+                    android:hint="@string/Uid_Usuario"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    android:fontFamily="@font/opensans"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <TextView
+                    android:id="@+id/Correo_usuario_A"
+                    android:hint="@string/Correo_usuario"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    android:fontFamily="@font/opensans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
+                <EditText
+                    android:id="@+id/Titulo_A"
+                    android:hint="@string/Titulo"
+                    android:textSize="25sp"
+                    android:textColorHint="@color/black600"
+                    android:background="@android:color/transparent"
+                    android:textStyle="bold"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:fontFamily="@font/raleway_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:src="@drawable/icon_time"
+                        android:layout_marginStart="8dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/opensans"
+                        android:text="@string/Fecha_hora_actual_Txt"
+                        android:visibility="gone"
+                        android:textColor="@color/black500"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/Fecha_registro_A"
+                        android:hint="@string/Fecha_hora_actual"
+                        android:textSize="14sp"
+                        android:textColor="@color/black500"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/opensans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearPendiente"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:src="@drawable/icon_timer"
+                        android:layout_marginStart="8dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:tint="@color/GrayClare" />
+
+                    <TextView
+                        android:id="@+id/Fecha_A"
+                        android:hint="@string/Fecha"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/opensans"
+                        android:textColor="@color/black500"
+                        android:textSize="14sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/Tarea_No_Finalizada"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:layout_marginStart="15dp"
+                        app:cardCornerRadius="40dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:scaleType="centerCrop"
+                            android:background="#FFAC7F"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/Tarea_Finalizada"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:layout_marginStart="15dp"
+                        app:cardCornerRadius="40dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:scaleType="centerCrop"
+                            android:background="#7FFFB7"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/Estado_nuevo"
+                        android:text="@string/Estado"
+                        android:textSize="14sp"
+                        android:textColor="@color/black500"
+                        android:layout_marginStart="5dp"
+                        android:paddingBottom="3dp"
+                        android:visibility="gone"
+                        android:fontFamily="@font/opensans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/Estado_A"
+                        android:text="@string/Estado"
+                        android:textSize="14sp"
+                        android:visibility="gone"
+                        android:textColor="@color/black500"
+                        android:layout_marginStart="5dp"
+                        android:paddingBottom="3dp"
+                        android:fontFamily="@font/opensans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <Spinner
+                        android:id="@+id/Spinner_estado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"/>
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/Descripcion_A"
+                    android:hint="@string/Descripcion"
+                    android:background="@android:color/transparent"
+                    android:minHeight="640dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:gravity="start"
+                    android:fontFamily="@font/opensans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 
-</ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#FBFBFB"
+        app:itemIconTint="@color/black700"
+        app:itemTextColor="@color/black700"
+        app:menu="@menu/bottom_menu"
+        android:id="@+id/navmenu"
+        app:labelVisibilityMode="labeled"
+        app:itemTextAppearanceActiveBoldEnabled="false"
+        app:itemTextAppearanceActive="@font/opensans"
+        app:itemTextAppearanceInactive="@font/opensans"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

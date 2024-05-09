@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Perfiles.PerfilUsuario">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -15,8 +16,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/PassToolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/red400"
+            android:layout_height="45dp"
+            android:background="@color/white"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
             tools:ignore="MissingConstraints"
             tools:ingnore="MissingConstrains" />
@@ -34,24 +35,27 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/portada"/>
 
-            <!--Imagen de perfil-->
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/Imagen_Perfil"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:background="#354f60"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/Editar_imagen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                app:cardCornerRadius="100dp"
                 android:layout_marginTop="120dp"
                 android:layout_marginStart="15dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/imagen_perfil_usuario"/>
+                app:cardElevation="0dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/Editar_imagen"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="130dp"
-                android:layout_marginTop="230dp"
-                android:src="@drawable/icon_editar"/>
+                <!--Imagen de perfil-->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/Imagen_Perfil"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="#354f60"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/imagen_perfil_usuario"/>
+
+            </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
 
@@ -69,10 +73,19 @@
                 android:layout_gravity="center"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:fontFamily="@font/opensans"
-                android:layout_marginTop="5dp"
+                android:fontFamily="@font/raleway_regular"
+                android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/raleway_regular"
+                android:text="@string/EditarPerfil"
+                android:textSize="20sp"
+                android:layout_marginTop="35dp"/>
 
             <!--Uid-->
             <TextView
@@ -80,6 +93,7 @@
                 android:text="@string/Uid_Perfil"
                 android:layout_gravity="center"
                 android:textSize="18sp"
+                android:visibility="gone"
                 android:drawableStart="@drawable/icon_usuario"
                 android:drawablePadding="5dp"
                 android:layout_marginTop="10dp"
@@ -90,65 +104,93 @@
             <!--Nombres-->
             <EditText
                 android:id="@+id/Nombres_Perfil"
-                android:hint="@string/Nombres_Perfil"
-                android:layout_marginTop="10dp"
+                android:layout_width="325dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:fontFamily="@font/opensans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:background="#F7F7F7"
+                android:textColorHint="@color/black500"
+                android:hint="@string/Nombres_Perfil"
+                android:fontFamily="@font/opensans"/>
 
             <!--Apellidos-->
             <EditText
                 android:id="@+id/Apellidos_Perfil"
-                android:hint="@string/Apellidos_Perfil"
+                android:layout_width="325dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:fontFamily="@font/opensans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:background="#F7F7F7"
+                android:textColorHint="@color/black500"
+                android:hint="@string/Apellidos_Perfil"
+                android:fontFamily="@font/opensans"/>
 
             <!--Edad-->
             <EditText
                 android:id="@+id/Edad_Perfil"
+                android:layout_width="325dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:background="#F7F7F7"
+                android:textColorHint="@color/black500"
                 android:hint="@string/Edad_Perfil"
-                android:inputType="number"
-                android:fontFamily="@font/opensans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-
+                android:fontFamily="@font/opensans"/>
 
             <!--Domiciio-->
             <EditText
                 android:id="@+id/Domicilio_Perfil"
+                android:layout_width="325dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:background="#F7F7F7"
+                android:textColorHint="@color/black500"
                 android:hint="@string/Domicilio_Perfil"
-                android:inputType="text"
-                android:fontFamily="@font/opensans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:fontFamily="@font/opensans"/>
 
             <!--Universidad-->
             <EditText
                 android:id="@+id/Universidad_Perfil"
+                android:layout_width="325dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:background="#F7F7F7"
+                android:textColorHint="@color/black500"
                 android:hint="@string/Universidad_Perfil"
-                android:inputType="text"
-                android:fontFamily="@font/opensans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:fontFamily="@font/opensans"/>
 
             <!--Profesión-->
             <EditText
                 android:id="@+id/Profesion_Perfil"
+                android:layout_width="325dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:background="#F7F7F7"
+                android:textColorHint="@color/black500"
                 android:hint="@string/Profesion_Perfil"
-                android:inputType="text"
-                android:fontFamily="@font/opensans"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:fontFamily="@font/opensans"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+                android:layout_width="325dp"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="20dp">
 
                 <!--Teléfono-->
                 <TextView
@@ -165,15 +207,17 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginStart="15dp"
+                    app:tint="@color/black500"
                     android:src="@drawable/icon_calendar"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+                android:layout_width="325dp"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="15dp">
 
                 <TextView
                     android:id="@+id/Fecha_Nacimiento_Perfil"
@@ -188,21 +232,30 @@
                     android:id="@+id/Editar_fecha"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+                    app:tint="@color/black500"
                     android:layout_marginStart="15dp"
                     android:src="@drawable/icon_calendar"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-
             <!--Guardar datos-->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/Guardar_Datos"
-                android:text="@string/Guardar_Datos"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:fontFamily="@font/opensans"
+                app:strokeColor="@color/red300"
+                android:text="@string/Guardar_Datos"
+                app:cornerRadius="10dp"
+                android:layout_gravity="center"
+                android:textColor="@color/red300"
+                android:layout_marginTop="35dp"
+                app:iconTint="@color/red300"
+                app:icon="@drawable/icon_save"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_marginBottom="20dp"
+                />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

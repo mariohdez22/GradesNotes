@@ -7,11 +7,18 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.example.gradesnotes.DrawNota.DrawView
+import com.example.gradesnotes.DrawNota.StrokeManager.clear
+import com.example.gradesnotes.DrawNota.StrokeManager.download
+import com.example.gradesnotes.DrawNota.StrokeManager.recognize
 import com.example.gradesnotes.Modelos.Nota
 import com.example.gradesnotes.R
 import com.google.android.material.navigation.NavigationBarView
@@ -29,9 +36,14 @@ class AgregarNota : AppCompatActivity() {
     private lateinit var fecha: TextView
     private lateinit var estado: TextView
     private lateinit var navegacion : NavigationBarView
+    private lateinit var linearPendiente : LinearLayout
+    private lateinit var linearDraw: LinearLayout
+    private lateinit var scrollNota: ScrollView
+    private var menu: Menu? = null
 
     private lateinit var titulo: EditText
     private lateinit var descripcion: EditText
+    private lateinit var drawView: DrawView
 
     private lateinit var dbFirebase:DatabaseReference
 
@@ -52,6 +64,8 @@ class AgregarNota : AppCompatActivity() {
         inicializarVariables()
         obtenerDatos()
         obtenerFechaHoraActual()
+
+        download()
     }
 
     private fun inicializarVariables() {
@@ -62,9 +76,14 @@ class AgregarNota : AppCompatActivity() {
         estado = findViewById(R.id.Estado)
         navegacion = findViewById(R.id.navmenu)
         navegacion.setOnItemSelectedListener(opcionMenuSeleccionado)
+        linearPendiente = findViewById(R.id.linearPendiente)
+        linearDraw = findViewById(R.id.linearDraw)
+        scrollNota = findViewById(R.id.scrollNota)
 
         titulo = findViewById(R.id.Titulo)
         descripcion = findViewById(R.id.Descripcion)
+
+        drawView = findViewById(R.id.draw_view)
 
         dbFirebase = FirebaseDatabase.getInstance().reference
     }
@@ -85,18 +104,23 @@ class AgregarNota : AppCompatActivity() {
     private fun agregarNota() {
 
         // Obtener los datos
+        val idNota = dbFirebase.push().key ?: return  // Terminar si getKey es nulo
         val uidUsuario = uidUsuario.text.toString()
         val correoUsuario = correoUsuario.text.toString()
         val fechaHoraActual = fechaActual.text.toString()
         val titulo = titulo.text.toString()
         val descripcion = descripcion.text.toString()
         val fecha = fecha.text.toString()
-        val estado = estado.text.toString()
-        val idNota = dbFirebase.push().key ?: return  // Terminar si getKey es nulo
+        val estados: String
+
+        if (fecha.isEmpty())
+            estados = ""
+        else
+            estados = estado.text.toString()
 
         // Validar datos
         if (uidUsuario.isNotEmpty() && correoUsuario.isNotEmpty() && fechaHoraActual.isNotEmpty() &&
-            titulo.isNotEmpty() && descripcion.isNotEmpty() && fecha.isNotEmpty() && estado.isNotEmpty()) {
+            titulo.isNotEmpty() && descripcion.isNotEmpty()) {
 
             val nota = Nota(
                 idNota = idNota,
@@ -106,7 +130,7 @@ class AgregarNota : AppCompatActivity() {
                 titulo = titulo,
                 descripcion = descripcion,
                 fechaNota = fecha,
-                estado = estado
+                estado = estados
             )
 
             // Establecer el nombre de la BD
@@ -129,13 +153,43 @@ class AgregarNota : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater: MenuInflater = menuInflater
         menuInflater.inflate(R.menu.menu_agenda, menu)
+        this.menu = menu
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
             R.id.Agregar_Nota_BD -> {
                 agregarNota()
+                return true
+            }
+            R.id.ExtraerTexto -> {
+
+                menu?.findItem(R.id.Agregar_Nota_BD)?.isVisible = true
+                menu?.findItem(R.id.ExtraerTexto)?.isVisible = false
+                menu?.findItem(R.id.LimpiarDibujo)?.isVisible = false
+
+                val layoutParams = scrollNota.layoutParams
+                layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                scrollNota.layoutParams = layoutParams
+
+                descripcion.visibility = View.VISIBLE
+                linearDraw.visibility = View.GONE
+
+                recognize(
+                    descripcion
+                )
+
+                drawView.clear()
+                clear()
+
+                return true
+            }
+            R.id.LimpiarDibujo -> {
+                drawView.clear()
+                clear()
+                descripcion.setText("")
                 return true
             }
         }
@@ -163,7 +217,7 @@ class AgregarNota : AppCompatActivity() {
                     val mesAjustado = mesSeleccionado + 1
                     val mesFormateado = if (mesAjustado < 10) "0$mesAjustado" else "$mesAjustado"
 
-                    fecha.visibility = View.VISIBLE
+                    linearPendiente.visibility = View.VISIBLE
                     fecha.text = "$diaFormateado/$mesFormateado/$anioSeleccionado"
                 }, anio, mes, dia)
 
@@ -175,7 +229,16 @@ class AgregarNota : AppCompatActivity() {
             }
             R.id.painter -> {
 
-                Toast.makeText(this, "Escritura manual", Toast.LENGTH_SHORT).show()
+                menu?.findItem(R.id.Agregar_Nota_BD)?.isVisible = false
+                menu?.findItem(R.id.ExtraerTexto)?.isVisible = true
+                menu?.findItem(R.id.LimpiarDibujo)?.isVisible = true
+
+                val layoutParams = scrollNota.layoutParams
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                scrollNota.layoutParams = layoutParams
+
+                descripcion.visibility = View.GONE
+                linearDraw.visibility = View.VISIBLE
             }
             R.id.extractor -> {
 

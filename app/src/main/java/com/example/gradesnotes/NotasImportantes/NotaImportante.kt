@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gradesnotes.Modelos.Nota
@@ -39,10 +40,14 @@ class NotaImportante : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nota_importante)
 
-        val actionBar = supportActionBar
-        actionBar?.title = "Notas importantes"
-        actionBar?.setDisplayShowHomeEnabled(true)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+        val toolbar = findViewById<Toolbar>(R.id.ListaImportanteToolbar)
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = "Notas Favoritas"
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
 
         recyclerViewNotasImportantes = findViewById(R.id.RecyclerViewNotasImportantes)
         recyclerViewNotasImportantes.setHasFixedSize(true)
@@ -163,7 +168,7 @@ class NotaImportante : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return super.onSupportNavigateUp()
     }
 

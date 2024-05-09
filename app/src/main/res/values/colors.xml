@@ -50,7 +50,9 @@
     <color name="black800">#434343</color>
     <color name="black900">#222222</color>
 
-    <color name="WhiteBlue">#FFF2F2</color>
+    <color name="WhiteBlue">#FFF6F6</color>
+    <color name="GrayClare">#D0D0D0</color>
+    <color name="GrayUltralight">#F7F7F7</color>
 
     <color name="Verify">#FFE555</color>
     <color name="NotVerify">#F19AFF</color>

@@ -3,7 +3,9 @@ package com.example.gradesnotes.ViewHolder
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gradesnotes.R
 
@@ -52,8 +54,9 @@ class ViewHolderNotaImportante(itemView: View) : RecyclerView.ViewHolder(itemVie
         val descripcionItem: TextView = mView.findViewById(R.id.Descripcion_Item_I)
         val fechaItem: TextView = mView.findViewById(R.id.Fecha_Item_I)
         val estadoItem: TextView = mView.findViewById(R.id.Estado_Item_I)
-        val tareaFinalizadaItem: ImageView = mView.findViewById(R.id.Tarea_Finalizada_Item_I)
-        val tareaNoFinalizadaItem: ImageView = mView.findViewById(R.id.Tarea_No_Finalizada_Item_I)
+        val tareaFinalizadaItem: CardView = mView.findViewById(R.id.Tarea_Finalizada_Item_I)
+        val tareaNoFinalizadaItem: CardView = mView.findViewById(R.id.Tarea_No_Finalizada_Item_I)
+        val linearEstadoItem: LinearLayout = mView.findViewById(R.id.linearEstado)
 
         idNotaItem.text = idNota
         uidUsuarioItem.text = uidUsuario
@@ -64,12 +67,18 @@ class ViewHolderNotaImportante(itemView: View) : RecyclerView.ViewHolder(itemVie
         fechaItem.text = fechaNota
         estadoItem.text = estado
 
-        if (estado == "Finalizado") {
-            tareaFinalizadaItem.visibility = View.VISIBLE
-            tareaNoFinalizadaItem.visibility = View.GONE
-        } else {
-            tareaNoFinalizadaItem.visibility = View.VISIBLE
-            tareaFinalizadaItem.visibility = View.GONE
+        if (estado.isEmpty()) {
+
+            linearEstadoItem.visibility = View.GONE
+
+        }else{
+
+            linearEstadoItem.visibility = View.VISIBLE
+
+            if (estado.equals("finalizado"))
+                tareaFinalizadaItem.visibility = View.VISIBLE
+            else
+                tareaNoFinalizadaItem.visibility = View.VISIBLE
         }
     }
 

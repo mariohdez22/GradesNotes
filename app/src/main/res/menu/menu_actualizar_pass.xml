@@ -4,7 +4,7 @@
     <item
         android:id="@+id/Actualizar_pass"
         android:title="@string/Actualizar_pass"
-        android:icon="@drawable/icon_editar"
+        android:icon="@drawable/icon_password"
         app:showAsAction="ifRoom">
 
     </item>

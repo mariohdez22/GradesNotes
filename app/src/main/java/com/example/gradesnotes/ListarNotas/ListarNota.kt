@@ -22,6 +22,7 @@ import com.example.gradesnotes.R
 import com.example.gradesnotes.ViewHolder.ViewHolder_Nota
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -137,6 +138,10 @@ class ListarNota : AppCompatActivity() {
                             val fechaNota = nota.fechaNota
                             val estado = nota.estado
 
+                            showBottomSheet(view)
+
+                            /*
+
                             // Configurar y mostrar el diálogo de opciones
                             dialog.setContentView(R.layout.dialogo_opciones)
 
@@ -164,6 +169,8 @@ class ListarNota : AppCompatActivity() {
                             }
 
                             dialog.show()
+
+                            */
                         }
                     })
                 }
@@ -233,6 +240,21 @@ class ListarNota : AppCompatActivity() {
 
         builder.create().show()
     }
+
+    fun showBottomSheet(view: View) {
+
+        val dialog = BottomSheetDialog( this)
+        val view = layoutInflater.inflate(R.layout.bottomsheet, null)
+        val btnClose = view.findViewById<Button>(R.id.EliminarNotaS)
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.setCancelable(false)
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater

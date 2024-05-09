@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/WhiteBlue"
+    android:background="@color/white"
     tools:context=".MenuPrincipal">
 
     <LinearLayout
@@ -13,19 +13,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <!--
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/PerfilToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/red500"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
-            tools:ignore="MissingConstraints"
-            tools:ingnore="MissingConstrains" />
-
-        -->
 
         <androidx.cardview.widget.CardView
             app:cardCornerRadius="0dp"
@@ -222,7 +209,7 @@
                     android:layout_weight="1"
                     android:layout_margin="10dp"
                     app:cardElevation="0dp"
-                    android:backgroundTint="@color/white">
+                    android:backgroundTint="@color/WhiteBlue">
 
                     <!--Opcion 5-->
                     <LinearLayout
@@ -257,6 +244,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="10dp"
+                    android:backgroundTint="@color/WhiteBlue"
                     app:cardElevation="0dp">
 
                     <!--Opcion 5-->
@@ -306,7 +294,7 @@
                     android:layout_weight="1"
                     android:layout_margin="10dp"
                     app:cardElevation="0dp"
-                    android:backgroundTint="@color/white">
+                    android:backgroundTint="@color/WhiteBlue">
 
                     <!--Opcion 5-->
                     <LinearLayout
@@ -341,6 +329,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="10dp"
+                    android:backgroundTint="@color/WhiteBlue"
                     app:cardElevation="0dp">
 
                     <!--Opcion 5-->
@@ -390,7 +379,7 @@
                     android:layout_weight="1"
                     android:layout_margin="10dp"
                     app:cardElevation="0dp"
-                    android:backgroundTint="@color/white">
+                    android:backgroundTint="@color/WhiteBlue">
 
                     <!--Opcion 5-->
                     <LinearLayout
@@ -425,7 +414,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="10dp"
-                    app:cardElevation="0dp">
+                    app:cardElevation="0dp"
+                    android:backgroundTint="@color/WhiteBlue">
 
                     <!--Opcion 5-->
                     <LinearLayout

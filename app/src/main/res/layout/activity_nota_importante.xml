@@ -5,11 +5,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".NotasImportantes.NotaImportante">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/RecyclerViewNotasImportantes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/ListaImportanteToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            tools:ignore="MissingConstraints"
+            tools:ingnore="MissingConstrains"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RecyclerViewNotasImportantes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:paddingBottom="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

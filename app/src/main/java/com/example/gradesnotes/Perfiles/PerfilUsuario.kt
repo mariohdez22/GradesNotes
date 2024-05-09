@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
 import com.example.gradesnotes.ActualizarPass.ActualizarPassUsuario
 import com.example.gradesnotes.MenuPrincipal
@@ -43,7 +44,7 @@ class PerfilUsuario : AppCompatActivity() {
 
     private lateinit var editarTelefono: ImageView
     private lateinit var editarFecha: ImageView
-    private lateinit var editarImagen: ImageView
+    private lateinit var editarImagen: CardView
 
     private lateinit var guardarDatos: Button
 
@@ -61,13 +62,13 @@ class PerfilUsuario : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_perfil_usuario)
 
+        val toolbar = findViewById<Toolbar>(R.id.PassToolbar)
+        setSupportActionBar(toolbar)
+
         val actionBar = supportActionBar
         actionBar?.title = "Perfil de usuario"
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.setDisplayShowHomeEnabled(true)
-
-        val toolbar = findViewById<Toolbar>(R.id.PassToolbar)
-        setSupportActionBar(toolbar)
 
         inicializarVariables()
 

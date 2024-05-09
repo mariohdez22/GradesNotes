@@ -91,7 +91,7 @@ class EditarImagenPerfil : AppCompatActivity() {
                 val imagenPerfil = snapshot.child("imagen_perfil").getValue(String::class.java) ?: ""
                 Glide.with(applicationContext)
                     .load(imagenPerfil)
-                    .placeholder(R.drawable.imagen_perfil_usuario)
+                    .placeholder(R.drawable.icon_perfil)
                     .into(imagenPerfilActualizar)
             }
 
