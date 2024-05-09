@@ -10,12 +10,17 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gradesnotes.ActualizarNotas.ActualizarNota
+import com.example.gradesnotes.AgregarNotas.AgregarNota
 import com.example.gradesnotes.Detalle.DetalleNota
 import com.example.gradesnotes.Modelos.Nota
 import com.example.gradesnotes.R
@@ -34,6 +39,7 @@ import com.google.firebase.database.ValueEventListener
 
 class ListarNota : AppCompatActivity() {
 
+    private var idNotaActual: String? = null
     private lateinit var recyclerViewNotas: RecyclerView
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var baseDeDatos: DatabaseReference
@@ -42,8 +48,12 @@ class ListarNota : AppCompatActivity() {
     private lateinit var firebaseRecyclerAdapter: FirebaseRecyclerAdapter<Nota, ViewHolder_Nota>
     private lateinit var options: FirebaseRecyclerOptions<Nota>
 
+    private var comprobarNotaImportante = false
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var user: FirebaseUser
+
+    private lateinit var bottomSheetView: View
+    private lateinit var bottomSheetDialog: BottomSheetDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +78,52 @@ class ListarNota : AppCompatActivity() {
         baseDeDatos = firebaseDatabase.getReference("NotasPublicadas")
         dialog = Dialog(this)
         listarNotasUsuarios()
+        setupBottomSheet()
+    }
 
+    private fun setupBottomSheet() {
+        bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetView = layoutInflater.inflate(R.layout.bottomsheet, null)
+        bottomSheetDialog.setContentView(bottomSheetView)
+    }
+
+    private fun AgregarIdNota(idNota: String) {
+
+        idNotaActual = idNota
+
+    }
+
+    private fun verificarNotaImportante(idNota: String? = null) {
+
+        if (idNota != null) {
+
+            val referencia = FirebaseDatabase.getInstance().getReference("Usuarios")
+            referencia.child(firebaseAuth.uid!!).child("MisNotasImportantes").child(idNota ?: "")
+                .addValueEventListener(object : ValueEventListener {
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        comprobarNotaImportante = snapshot.exists()
+                        actualizarBotonImportante()
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {}
+                })
+        }
+    }
+
+    private fun actualizarBotonImportante() {
+
+        val iconFavoritos = bottomSheetView.findViewById<ImageView>(R.id.imagenFavoritos)
+        val txtFavoritos = bottomSheetView.findViewById<TextView>(R.id.textoFavoritos)
+
+        if (comprobarNotaImportante) {
+            txtFavoritos.text = "Eliminar de Favoritos"
+            iconFavoritos.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icono_nota_no_importante))
+        } else {
+            txtFavoritos.text = "Añadir a Favoritos"
+            iconFavoritos.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icono_nota_importante))
+        }
     }
 
     private fun listarNotasUsuarios() {
@@ -92,6 +147,9 @@ class ListarNota : AppCompatActivity() {
                     model.fechaNota,
                     model.estado
                 )
+
+                verificarNotaImportante(model.idNota)
+
             }
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder_Nota {
@@ -112,7 +170,7 @@ class ListarNota : AppCompatActivity() {
                             val fechaNota = nota.fechaNota
                             val estado = nota.estado
 
-                            val intent = Intent(this@ListarNota, DetalleNota::class.java).apply {
+                            val intent = Intent(this@ListarNota, ActualizarNota::class.java).apply {
                                 putExtra("id_nota", idNota)
                                 putExtra("uid_usuario", uidUsuario)
                                 putExtra("correo_usuario", correoUsuario)
@@ -123,6 +181,7 @@ class ListarNota : AppCompatActivity() {
                                 putExtra("estado", estado)
                             }
                             startActivity(intent)
+
                         }
 
                         override fun onItemLongClick(view: View, position: Int) {
@@ -138,39 +197,14 @@ class ListarNota : AppCompatActivity() {
                             val fechaNota = nota.fechaNota
                             val estado = nota.estado
 
-                            showBottomSheet(view)
+                            AgregarIdNota(idNota)
 
-                            /*
-
-                            // Configurar y mostrar el diálogo de opciones
-                            dialog.setContentView(R.layout.dialogo_opciones)
-
-                            val btnEliminar: Button = dialog.findViewById(R.id.CD_Eliminar)
-                            val btnActualizar: Button = dialog.findViewById(R.id.CD_Actualizar)
-
-                            btnEliminar.setOnClickListener {
-                                eliminarNota(idNota)
-                                dialog.dismiss()
+                            if (idNotaActual != null) {
+                                verificarNotaImportante(idNotaActual)
                             }
 
-                            btnActualizar.setOnClickListener {
-                                val intent = Intent(this@ListarNota, ActualizarNota::class.java).apply {
-                                    putExtra("id_nota", idNota)
-                                    putExtra("uid_usuario", uidUsuario)
-                                    putExtra("correo_usuario", correoUsuario)
-                                    putExtra("fecha_registro", fechaRegistro)
-                                    putExtra("titulo", titulo)
-                                    putExtra("descripcion", descripcion)
-                                    putExtra("fecha_nota", fechaNota)
-                                    putExtra("estado", estado)
-                                }
-                                startActivity(intent)
-                                dialog.dismiss()
-                            }
+                            showBottomSheet(view, idNota, uidUsuario, correoUsuario, fechaRegistro, titulo, descripcion, fechaNota, estado)
 
-                            dialog.show()
-
-                            */
                         }
                     })
                 }
@@ -197,7 +231,7 @@ class ListarNota : AppCompatActivity() {
                             for (ds in snapshot.children) {
                                 ds.ref.removeValue()
                             }
-                            Toast.makeText(this@ListarNota, "Nota eliminada", Toast.LENGTH_SHORT).show()
+                            //Toast.makeText(this@ListarNota, "Nota eliminada", Toast.LENGTH_SHORT).show()
                         }
 
                         override fun onCancelled(error: DatabaseError) {
@@ -241,19 +275,91 @@ class ListarNota : AppCompatActivity() {
         builder.create().show()
     }
 
-    fun showBottomSheet(view: View) {
+    fun showBottomSheet(view: View,
+                        idNota: String,
+                        uidUsuario: String,
+                        correoUsuario: String,
+                        fechaRegistro: String,
+                        titulo: String,
+                        descripcion: String,
+                        fechaNota: String,
+                        estado: String)
+    {
 
-        val dialog = BottomSheetDialog( this)
-        val view = layoutInflater.inflate(R.layout.bottomsheet, null)
-        val btnClose = view.findViewById<Button>(R.id.EliminarNotaS)
-        btnClose.setOnClickListener {
-            dialog.dismiss()
+        val btnDetalles = bottomSheetView .findViewById<LinearLayout>(R.id.linearDetalles)
+        val btnEliminarNota = bottomSheetView .findViewById<LinearLayout>(R.id.linearEliminar)
+        val btnFavoritos = bottomSheetView .findViewById<LinearLayout>(R.id.linearFavoritos)
+
+        btnFavoritos.setOnClickListener {
+
+            if (comprobarNotaImportante) {
+
+                val referencia = FirebaseDatabase.getInstance().getReference("Usuarios")
+                referencia.child(user.uid).child("MisNotasImportantes").child(idNota ?: "")
+                    .removeValue()
+                    .addOnSuccessListener {
+
+                        //Toast.makeText(this, "La nota ya no es importante", Toast.LENGTH_SHORT).show()
+
+                    }.addOnFailureListener {
+
+                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    }
+
+            } else {
+
+                val notaImportante = hashMapOf(
+                    "idNota" to idNota,
+                    "uidUsuario" to uidUsuario,
+                    "correoUsuario" to correoUsuario,
+                    "fechaHoraActual" to fechaRegistro,
+                    "titulo" to titulo,
+                    "descripcion" to descripcion,
+                    "fechaNota" to fechaNota,
+                    "estado" to estado,
+                )
+
+                val referencia = FirebaseDatabase.getInstance().getReference("Usuarios")
+                referencia.child(firebaseAuth.uid!!).child("MisNotasImportantes").child(idNota ?: "")
+                    .setValue(notaImportante)
+                    .addOnSuccessListener {
+
+                        //Toast.makeText(this, "Se ha añadido a notas importantes", Toast.LENGTH_SHORT).show()
+
+                    }.addOnFailureListener {
+
+                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    }
+            }
+
         }
 
-        dialog.setCancelable(false)
-        dialog.setContentView(view)
-        dialog.show()
+        btnEliminarNota.setOnClickListener {
+            eliminarNota(idNota)
+            bottomSheetDialog.dismiss()
+        }
+
+        btnDetalles.setOnClickListener {
+
+            val intent = Intent(this@ListarNota, DetalleNota::class.java).apply {
+                putExtra("id_nota", idNota)
+                putExtra("uid_usuario", uidUsuario)
+                putExtra("correo_usuario", correoUsuario)
+                putExtra("fecha_registro", fechaRegistro)
+                putExtra("titulo", titulo)
+                putExtra("descripcion", descripcion)
+                putExtra("fecha_nota", fechaNota)
+                putExtra("estado", estado)
+            }
+            startActivity(intent)
+
+            bottomSheetDialog.dismiss()
+        }
+
+        //dialog.setCancelable(false)
+        bottomSheetDialog.show()
     }
+
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -270,7 +376,7 @@ class ListarNota : AppCompatActivity() {
     }
 
     override fun onStart() {
-        if (firebaseRecyclerAdapter != null) {
+        if (user != null) {
             firebaseRecyclerAdapter.startListening()
         }
         super.onStart()
@@ -281,3 +387,70 @@ class ListarNota : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+val intent = Intent(this@ListarNota, DetalleNota::class.java).apply {
+    putExtra("id_nota", idNota)
+    putExtra("uid_usuario", uidUsuario)
+    putExtra("correo_usuario", correoUsuario)
+    putExtra("fecha_registro", fechaRegistro)
+    putExtra("titulo", titulo)
+    putExtra("descripcion", descripcion)
+    putExtra("fecha_nota", fechaNota)
+    putExtra("estado", estado)
+}
+startActivity(intent)
+
+*/
+
+/*
+
+// Configurar y mostrar el diálogo de opciones
+dialog.setContentView(R.layout.dialogo_opciones)
+
+val btnEliminar: Button = dialog.findViewById(R.id.CD_Eliminar)
+val btnActualizar: Button = dialog.findViewById(R.id.CD_Actualizar)
+
+btnEliminar.setOnClickListener {
+    eliminarNota(idNota)
+    dialog.dismiss()
+}
+
+btnActualizar.setOnClickListener {
+    val intent = Intent(this@ListarNota, ActualizarNota::class.java).apply {
+        putExtra("id_nota", idNota)
+        putExtra("uid_usuario", uidUsuario)
+        putExtra("correo_usuario", correoUsuario)
+        putExtra("fecha_registro", fechaRegistro)
+        putExtra("titulo", titulo)
+        putExtra("descripcion", descripcion)
+        putExtra("fecha_nota", fechaNota)
+        putExtra("estado", estado)
+    }
+    startActivity(intent)
+    dialog.dismiss()
+}
+
+dialog.show()
+
+*/

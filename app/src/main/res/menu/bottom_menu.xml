@@ -3,26 +3,34 @@
 
     <item
         android:id="@+id/calendario"
-        android:icon="@drawable/icon_calendar"
+        android:icon="@drawable/icon_calendarios"
         android:title="@string/calendario"
         />
 
     <item
         android:id="@+id/listado"
-        android:icon="@drawable/icon_lista"
+        android:icon="@drawable/icon_listado"
         android:title="@string/lista"
 
         />
 
     <item
-        android:id="@+id/painter"
-        android:icon="@drawable/icon_email"
+        android:id="@+id/inputs"
+        android:icon="@drawable/icon_delete"
         android:title="@string/escrituraManual"
+        android:visible="false"
+        />
+
+    <item
+        android:id="@+id/painter"
+        android:icon="@drawable/icon_drawer"
+        android:title="@string/escrituraLibre"
+        android:visible="true"
         />
 
     <item
         android:id="@+id/extractor"
-        android:icon="@drawable/icon_about"
+        android:icon="@drawable/photocam"
         android:title="@string/textoImagen"
         />
 

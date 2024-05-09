@@ -232,6 +232,7 @@
     <!--OPCIONES MENU BOTTOM NAVIGATION - AGREGAR NOTA-->
     <string name="calendario">Calendario</string>
     <string name="lista">Lista</string>
+    <string name="escrituraLibre">Escritura Libre</string>
     <string name="escrituraManual">Escritura Manual</string>
     <string name="textoImagen">Extraer Texto</string>
 

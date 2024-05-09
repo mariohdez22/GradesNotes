@@ -139,23 +139,19 @@ class MenuPrincipal : AppCompatActivity() {
 
         cardImgPerfil.setOnClickListener{
             startActivity(Intent(this@MenuPrincipal, PerfilUsuario::class.java))
-            Toast.makeText(this, "Perfil Usuario", Toast.LENGTH_SHORT).show()
         }
 
         CardNotas.setOnClickListener {
             startActivity(Intent(this, ListarNota::class.java))
-            Toast.makeText(this, "Lista de Notas", Toast.LENGTH_SHORT).show()
         }
 
 
         CardArchivados.setOnClickListener {
             startActivity(Intent(this, NotaImportante::class.java))
-            Toast.makeText(this, "Notas Importantes", Toast.LENGTH_SHORT).show()
         }
 
         CardPerfil.setOnClickListener {
             startActivity(Intent(this, PerfilUsuario::class.java))
-            Toast.makeText(this, "Perfil Usuario", Toast.LENGTH_SHORT).show()
         }
 
         CardAcercaDe.setOnClickListener {

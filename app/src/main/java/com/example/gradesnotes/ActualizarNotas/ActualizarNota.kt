@@ -5,18 +5,24 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
+import com.example.gradesnotes.DrawNota.DrawView
+import com.example.gradesnotes.DrawNota.StrokeManager
+import com.example.gradesnotes.DrawNota.StrokeManager.download
 import com.example.gradesnotes.R
+import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -33,11 +39,17 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var fechaRegistroA: TextView
     private lateinit var fechaA: TextView
     private lateinit var estadoA: TextView
+    private lateinit var navegacion : NavigationBarView
     private lateinit var estadoNuevo: TextView
     private lateinit var linearPendiente: LinearLayout
+    private lateinit var linearDraw: LinearLayout
+    private lateinit var scrollNota: ScrollView
+    private var menu: Menu? = null
+    private var menu2: Menu? = null
 
     private lateinit var tituloA: EditText
     private lateinit var descripcionA: EditText
+    private lateinit var drawView: DrawView
 
     // ImageView para indicar el estado de la tarea
     private lateinit var tareaFinalizada: CardView
@@ -80,6 +92,7 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         ComprobarEstadoNota()
         SpinnerEstado()
 
+        download()
     }
 
     //----------------------------------------------------------------------------------------------
@@ -94,9 +107,16 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         estadoA = findViewById(R.id.Estado_A)
         estadoNuevo = findViewById(R.id.Estado_nuevo)
         linearPendiente = findViewById(R.id.linearPendiente)
+        linearDraw = findViewById(R.id.linearDraw)
+        scrollNota = findViewById(R.id.scrollNota)
+
+        navegacion = findViewById(R.id.navmenu)
+        navegacion.setOnItemSelectedListener(opcionMenuSeleccionado)
 
         tituloA = findViewById(R.id.Titulo_A)
         descripcionA = findViewById(R.id.Descripcion_A)
+
+        drawView = findViewById(R.id.draw_view)
 
         tareaFinalizada = findViewById(R.id.Tarea_Finalizada)
         tareaNoFinalizada = findViewById(R.id.Tarea_No_Finalizada)
@@ -257,12 +277,42 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.menu_actualizar, menu)
+        this.menu = menu
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
             R.id.Actualizar_Nota_BD -> ActualizarNotaDB()
+            R.id.ExtraerTexto -> {
+
+                menu?.findItem(R.id.Actualizar_Nota_BD)?.isVisible = true
+                menu?.findItem(R.id.ExtraerTexto)?.isVisible = false
+                menu?.findItem(R.id.LimpiarDibujo)?.isVisible = false
+
+                val layoutParams = scrollNota.layoutParams
+                layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                scrollNota.layoutParams = layoutParams
+
+                descripcionA.visibility = View.VISIBLE
+                linearDraw.visibility = View.GONE
+
+                StrokeManager.recognize(
+                    descripcionA
+                )
+
+                drawView.clear()
+                StrokeManager.clear()
+
+                return true
+            }
+            R.id.LimpiarDibujo -> {
+                drawView.clear()
+                StrokeManager.clear()
+                descripcionA.setText("")
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -270,6 +320,68 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
         return super.onSupportNavigateUp()
+    }
+
+    private val opcionMenuSeleccionado = NavigationBarView.OnItemSelectedListener{
+
+        item -> when(item.itemId){
+
+            R.id.calendario -> {
+
+                val calendario = Calendar.getInstance()
+                val dia = calendario.get(Calendar.DAY_OF_MONTH)
+                val mes = calendario.get(Calendar.MONTH)
+                val anio = calendario.get(Calendar.YEAR)
+
+                val datePickerDialog = DatePickerDialog(this, { _, anioSeleccionado, mesSeleccionado, diaSeleccionado ->
+                    val diaFormateado = if (diaSeleccionado < 10) "0$diaSeleccionado" else "$diaSeleccionado"
+                    val mesAjustado = mesSeleccionado + 1
+                    val mesFormateado = if (mesAjustado < 10) "0$mesAjustado" else "$mesAjustado"
+
+                    linearPendiente.visibility = View.VISIBLE
+                    fechaA.text = "$diaFormateado/$mesFormateado/$anioSeleccionado"
+                }, anio, mes, dia)
+
+                datePickerDialog.show()
+
+            }
+            R.id.listado -> {
+
+                Toast.makeText(this, "Listado", Toast.LENGTH_SHORT).show()
+            }
+            R.id.inputs -> {
+
+                menu?.findItem(R.id.Actualizar_Nota_BD)?.isVisible = true
+                menu?.findItem(R.id.ExtraerTexto)?.isVisible = false
+                menu?.findItem(R.id.LimpiarDibujo)?.isVisible = false
+
+                val layoutParams = scrollNota.layoutParams
+                layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+                scrollNota.layoutParams = layoutParams
+
+                descripcionA.visibility = View.VISIBLE
+                linearDraw.visibility = View.GONE
+
+            }
+            R.id.painter -> {
+
+                menu?.findItem(R.id.Actualizar_Nota_BD)?.isVisible = false
+                menu?.findItem(R.id.ExtraerTexto)?.isVisible = true
+                menu?.findItem(R.id.LimpiarDibujo)?.isVisible = true
+
+                val layoutParams = scrollNota.layoutParams
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                scrollNota.layoutParams = layoutParams
+
+                descripcionA.visibility = View.GONE
+                linearDraw.visibility = View.VISIBLE
+            }
+            R.id.extractor -> {
+
+                Toast.makeText(this, "Extractor texto", Toast.LENGTH_SHORT).show()
+            }
+        }
+            false
     }
 
 }

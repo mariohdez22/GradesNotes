@@ -16,27 +16,82 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginBottom="30dp"
-            android:padding="16dp"
+            android:padding="20dp"
             android:background="@color/white">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/EliminarNotaS"
-                android:text="@string/EliminarNota"
+            <LinearLayout
+                android:id="@+id/linearFavoritos"
                 android:layout_width="match_parent"
-                android:backgroundTint="@color/GrayClare"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black700"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-            <com.google.android.material.button.MaterialButton
-                id="@+id/DetalleNotaS"
-                android:text="Detalle Nota"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp"
-                android:textColor="@color/black700"
-                android:backgroundTint="@color/GrayClare"
+                <ImageView
+                    android:id="@+id/imagenFavoritos"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:tint="@color/black700"
+                    android:src="@drawable/icono_nota_importante"/>
+
+                <TextView
+                    android:id="@+id/textoFavoritos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Añadir a favoritos"
+                    android:fontFamily="@font/opensans"
+                    android:textSize="16sp"
+                    android:layout_marginStart="12dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearEliminar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:tint="@color/black700"
+                    android:src="@drawable/icon_delete"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Eliminar nota"
+                    android:fontFamily="@font/opensans"
+                    android:textSize="16sp"
+                    android:layout_marginStart="12dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearDetalles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:tint="@color/black700"
+                    android:src="@drawable/icon_apunte"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Detalles de la nota"
+                    android:fontFamily="@font/opensans"
+                    android:textSize="16sp"
+                    android:layout_marginStart="12dp"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
