@@ -1,13 +1,22 @@
 package com.example.gradesnotes.ActualizarNotas
 
+import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.Dialog
+import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -15,9 +24,12 @@ import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import com.example.gradesnotes.DrawNota.DrawView
 import com.example.gradesnotes.DrawNota.StrokeManager
 import com.example.gradesnotes.DrawNota.StrokeManager.download
@@ -28,6 +40,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.Text
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.util.Calendar
 
 class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -46,6 +63,9 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var scrollNota: ScrollView
     private var menu: Menu? = null
     private var menu2: Menu? = null
+    private var uri: Uri? = null
+    lateinit var textRecognizer : TextRecognizer
+    private lateinit var dialog : Dialog
 
     private lateinit var tituloA: EditText
     private lateinit var descripcionA: EditText
@@ -85,6 +105,8 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
+
+        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
         InicializarVariables()
         RecuperarDatos()
@@ -378,10 +400,142 @@ class ActualizarNota : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
             R.id.extractor -> {
 
+                dialog = Dialog(this)
+                dialog.setContentView(R.layout.cuadro_dialogo_elegir_imagen)
+
+                dialog.show()
+
+                var btnElegirGaleria = dialog.findViewById<Button>(R.id.Btn_Elegir_Galeria)
+                var btnElegirCamara = dialog.findViewById<Button>(R.id.Btn_Elegir_Camara)
+
+                btnElegirCamara.setOnClickListener {
+                    abrirCamara()
+                    dialog.dismiss()
+                }
+
+                btnElegirGaleria.setOnClickListener {
+                    abrirGaleria()
+                    dialog.dismiss()
+                }
+
                 Toast.makeText(this, "Extractor texto", Toast.LENGTH_SHORT).show()
             }
         }
             false
+    }
+
+    private fun abrirGaleria(){
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED){
+            var intent = Intent(Intent.ACTION_PICK)
+            intent.setType("image/*")
+            galeriaARL.launch(intent)
+        }
+        else{
+            permisoGaleriaARL.launch(Manifest.permission.READ_MEDIA_IMAGES)
+        }
+    }
+
+    private fun abrirCamara(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            var values = ContentValues()
+
+            values.put(MediaStore.Images.Media.TITLE, "Titulo")
+            values.put(MediaStore.Images.Media.DESCRIPTION, "Descripcion")
+
+            uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+            var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+
+            camaraARL.launch(intent)
+
+        }else{
+            permisoCamaraARL.launch(Manifest.permission.CAMERA)
+        }
+
+    }
+
+    private var galeriaARL = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){
+            result : ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK){
+            var data = result.data
+            if (data != null) {
+
+                descripcionA.visibility = View.INVISIBLE
+                uri = data.data
+
+                var inputImage = InputImage.fromFilePath(this, uri!!)
+
+                var textTask = textRecognizer.process(inputImage)
+                    .addOnSuccessListener {
+                            text : Text ->
+                        var texto = text.text
+                        descripcionA.setText(texto)
+                        descripcionA.visibility = View.VISIBLE
+                    }
+                    .addOnFailureListener {
+                            e : Exception ->
+                        Toast.makeText(this, "Error -> " + e.message, Toast.LENGTH_SHORT).show()
+                    }
+                Toast.makeText(this, "FOTO SELECCIONADA CON EXITO", Toast.LENGTH_SHORT).show()
+            }
+        }else{
+            Toast.makeText(this, "CANCELADO POR EL USUARIO", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var camaraARL = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){
+            result : ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK){
+            if(uri != null){
+
+                descripcionA.setText(uri.toString())
+                descripcionA.visibility = View.INVISIBLE
+                var inputImage = InputImage.fromFilePath(this, uri!!)
+
+                var textTask = textRecognizer.process(inputImage)
+                    .addOnSuccessListener {
+                            text : Text ->
+                        var texto = text.text
+                        descripcionA.setText(texto)
+                        descripcionA.visibility = View.VISIBLE
+                    }
+                    .addOnFailureListener {
+                            e : Exception ->
+                        Toast.makeText(this, "Error -> " + e.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                Toast.makeText(this, "FOTO TOMADA CON EXITO", Toast.LENGTH_SHORT).show()
+            }
+
+        }else{
+            Toast.makeText(this, "CANCELADO POR EL USUARIO", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var permisoCamaraARL = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            abrirCamara()
+        } else {
+            Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private var permisoGaleriaARL = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            abrirGaleria()
+        } else {
+            Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

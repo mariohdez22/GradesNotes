@@ -63,6 +63,7 @@ class AgregarNota : AppCompatActivity() {
     private var uri: Uri? = null
     private lateinit var dialog : Dialog
     lateinit var textRecognizer : TextRecognizer
+    private var reconocer : Boolean = false
 
     private lateinit var titulo: EditText
     private lateinit var descripcion: EditText
@@ -89,6 +90,16 @@ class AgregarNota : AppCompatActivity() {
         obtenerFechaHoraActual()
 
         download()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+//        if(reconocer){
+//            reconocerTexto()
+//            reconocer = false
+//        }
+
     }
 
     private fun inicializarVariables() {
@@ -277,31 +288,17 @@ class AgregarNota : AppCompatActivity() {
 
                 btnElegirCamara.setOnClickListener {
                     abrirCamara()
-
                     dialog.dismiss()
                 }
 
                 btnElegirGaleria.setOnClickListener {
                     abrirGaleria()
-
                     dialog.dismiss()
                 }
 
             }
         }
         false
-    }
-
-    private fun reconocerTexto(){
-
-        uri = Uri.parse(descripcion.text.toString())
-        descripcion.setText("")
-
-        if(uri != null){
-
-
-        }
-
     }
 
     private fun abrirGaleria(){
@@ -329,11 +326,11 @@ class AgregarNota : AppCompatActivity() {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
 
             camaraARL.launch(intent)
+
         }else{
             permisoCamaraARL.launch(Manifest.permission.CAMERA)
         }
 
-        reconocerTexto()
     }
 
     private var galeriaARL = registerForActivityResult(
@@ -344,6 +341,7 @@ class AgregarNota : AppCompatActivity() {
             var data = result.data
             if (data != null) {
 
+                descripcion.visibility = View.INVISIBLE
                 uri = data.data
 
                 var inputImage = InputImage.fromFilePath(this, uri!!)
@@ -353,6 +351,7 @@ class AgregarNota : AppCompatActivity() {
                             text : Text ->
                         var texto = text.text
                         descripcion.setText(texto)
+                        descripcion.visibility = View.VISIBLE
                     }
                     .addOnFailureListener {
                             e : Exception ->
@@ -371,6 +370,9 @@ class AgregarNota : AppCompatActivity() {
             result : ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK){
             if(uri != null){
+
+                descripcion.setText(uri.toString())
+                descripcion.visibility = View.INVISIBLE
                 var inputImage = InputImage.fromFilePath(this, uri!!)
 
                 var textTask = textRecognizer.process(inputImage)
@@ -378,13 +380,16 @@ class AgregarNota : AppCompatActivity() {
                             text : Text ->
                         var texto = text.text
                         descripcion.setText(texto)
+                        descripcion.visibility = View.VISIBLE
                     }
                     .addOnFailureListener {
                             e : Exception ->
                         Toast.makeText(this, "Error -> " + e.message, Toast.LENGTH_SHORT).show()
                     }
+
                 Toast.makeText(this, "FOTO TOMADA CON EXITO", Toast.LENGTH_SHORT).show()
             }
+
         }else{
             Toast.makeText(this, "CANCELADO POR EL USUARIO", Toast.LENGTH_SHORT).show()
         }
