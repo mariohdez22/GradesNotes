@@ -11,6 +11,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -63,7 +65,7 @@ class AgregarNota : AppCompatActivity() {
     private var uri: Uri? = null
     private lateinit var dialog : Dialog
     lateinit var textRecognizer : TextRecognizer
-    private var reconocer : Boolean = false
+    private var bulletTextWatcher: TextWatcher? = null
 
     private lateinit var titulo: EditText
     private lateinit var descripcion: EditText
@@ -88,18 +90,40 @@ class AgregarNota : AppCompatActivity() {
         inicializarVariables()
         obtenerDatos()
         obtenerFechaHoraActual()
-
+        setupBulletTextWatcher()
         download()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun setupBulletTextWatcher() {
+        bulletTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
-//        if(reconocer){
-//            reconocerTexto()
-//            reconocer = false
-//        }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
 
+            override fun afterTextChanged(s: Editable?) {
+                if (s != null && s.length > 1 && s.endsWith("\n")) {
+                    s.append("• ")
+                }
+            }
+        }
+    }
+
+    private fun toggleBulletTextWatcher() {
+        if (bulletTextWatcher != null && descripcion.text.contains("•")) {
+            // Si el TextWatcher ya está activo, lo removemos
+            descripcion.removeTextChangedListener(bulletTextWatcher)
+            bulletTextWatcher = null  // Opcional: remover la referencia
+            Toast.makeText(this, "Bullet list mode deactivated", Toast.LENGTH_SHORT).show()
+        } else {
+            // Activar el TextWatcher
+            if (bulletTextWatcher == null) {
+                setupBulletTextWatcher()
+            }
+            descripcion.addTextChangedListener(bulletTextWatcher!!)
+            Toast.makeText(this, "Bullet list mode activated", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun inicializarVariables() {
@@ -237,6 +261,34 @@ class AgregarNota : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
+    private fun setupDescriptionEditText() {
+        // Agregar un TextWatcher que maneja la inserción de nuevas viñetas
+        descripcion.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Verificar si la última entrada es un salto de línea
+                if (s != null && s.length > 1 && s.substring(s.length - 1) == "\n") {
+                    // Insertar automáticamente una nueva viñeta
+                    s.append("• ")
+                }
+            }
+        })
+    }
+
+    private fun insertBulletList() {
+        if (descripcion.text.isEmpty()) {
+            descripcion.setText("• ")
+        } else {
+            descripcion.append("\n• ")
+        }
+        descripcion.setSelection(descripcion.text.length) // Mover el cursor al final
+    }
+
     private val opcionMenuSeleccionado = NavigationBarView.OnItemSelectedListener{
 
         item -> when(item.itemId){
@@ -261,13 +313,13 @@ class AgregarNota : AppCompatActivity() {
             }
             R.id.listado -> {
 
-                Toast.makeText(this, "Listado", Toast.LENGTH_SHORT).show()
+                toggleBulletTextWatcher()
             }
             R.id.painter -> {
 
                 menu?.findItem(R.id.Agregar_Nota_BD)?.isVisible = false
-                menu?.findItem(R.id.ExtraerTexto)?.isVisible = false
-                menu?.findItem(R.id.LimpiarDibujo)?.isVisible = false
+                menu?.findItem(R.id.ExtraerTexto)?.isVisible = true
+                menu?.findItem(R.id.LimpiarDibujo)?.isVisible = true
 
                 val layoutParams = scrollNota.layoutParams
                 layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
@@ -288,17 +340,31 @@ class AgregarNota : AppCompatActivity() {
 
                 btnElegirCamara.setOnClickListener {
                     abrirCamara()
+
                     dialog.dismiss()
                 }
 
                 btnElegirGaleria.setOnClickListener {
                     abrirGaleria()
+
                     dialog.dismiss()
                 }
 
             }
         }
         false
+    }
+
+    private fun reconocerTexto(){
+
+        uri = Uri.parse(descripcion.text.toString())
+        descripcion.setText("")
+
+        if(uri != null){
+
+
+        }
+
     }
 
     private fun abrirGaleria(){
@@ -326,11 +392,11 @@ class AgregarNota : AppCompatActivity() {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
 
             camaraARL.launch(intent)
-
         }else{
             permisoCamaraARL.launch(Manifest.permission.CAMERA)
         }
 
+        reconocerTexto()
     }
 
     private var galeriaARL = registerForActivityResult(
@@ -341,7 +407,6 @@ class AgregarNota : AppCompatActivity() {
             var data = result.data
             if (data != null) {
 
-                descripcion.visibility = View.INVISIBLE
                 uri = data.data
 
                 var inputImage = InputImage.fromFilePath(this, uri!!)
@@ -351,7 +416,6 @@ class AgregarNota : AppCompatActivity() {
                             text : Text ->
                         var texto = text.text
                         descripcion.setText(texto)
-                        descripcion.visibility = View.VISIBLE
                     }
                     .addOnFailureListener {
                             e : Exception ->
@@ -370,9 +434,6 @@ class AgregarNota : AppCompatActivity() {
             result : ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK){
             if(uri != null){
-
-                descripcion.setText(uri.toString())
-                descripcion.visibility = View.INVISIBLE
                 var inputImage = InputImage.fromFilePath(this, uri!!)
 
                 var textTask = textRecognizer.process(inputImage)
@@ -380,16 +441,13 @@ class AgregarNota : AppCompatActivity() {
                             text : Text ->
                         var texto = text.text
                         descripcion.setText(texto)
-                        descripcion.visibility = View.VISIBLE
                     }
                     .addOnFailureListener {
                             e : Exception ->
                         Toast.makeText(this, "Error -> " + e.message, Toast.LENGTH_SHORT).show()
                     }
-
                 Toast.makeText(this, "FOTO TOMADA CON EXITO", Toast.LENGTH_SHORT).show()
             }
-
         }else{
             Toast.makeText(this, "CANCELADO POR EL USUARIO", Toast.LENGTH_SHORT).show()
         }

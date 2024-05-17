@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/opensans"
+        android:fontFamily="@font/raleway_medium"
         android:gravity="center"/>
 
     <com.airbnb.lottie.LottieAnimationView
@@ -37,19 +36,21 @@
         <Button
             android:id="@+id/EliminarNota"
             android:text="@string/EliminarNota"
+            android:textSize="15sp"
+            android:backgroundTint="@color/red300"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:fontFamily="@font/opensans"/>
 
         <!--´Botón cancelar-->
         <Button
             android:id="@+id/EliminarNotaCancelar"
             android:text="@string/EliminarNotaCancelar"
+            android:backgroundTint="@color/red300"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
             android:fontFamily="@font/opensans"/>
 
 

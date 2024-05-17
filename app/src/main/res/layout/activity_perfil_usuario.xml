@@ -29,11 +29,11 @@
             android:gravity="center">
 
             <!--Portada-->
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/portada"/>
+                android:src="@drawable/fondogradiente"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/Editar_imagen"
@@ -66,15 +66,26 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <!--Nombre de usuario-->
+            <TextView
+                android:id="@+id/Nombre_Perfil"
+                android:text="@string/Nombres_Perfil"
+                android:layout_gravity="center"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/raleway_regular"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
             <!--Correo-->
             <TextView
                 android:id="@+id/Correo_Perfil"
                 android:text="@string/Correo_Perfil"
                 android:layout_gravity="center"
-                android:textSize="25sp"
-                android:textStyle="bold"
+                android:textSize="20sp"
                 android:fontFamily="@font/raleway_regular"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="3dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -85,7 +96,7 @@
                 android:fontFamily="@font/raleway_regular"
                 android:text="@string/EditarPerfil"
                 android:textSize="20sp"
-                android:layout_marginTop="35dp"/>
+                android:layout_marginTop="40dp"/>
 
             <!--Uid-->
             <TextView
@@ -208,7 +219,7 @@
                     android:layout_height="35dp"
                     android:layout_marginStart="15dp"
                     app:tint="@color/black500"
-                    android:src="@drawable/icon_calendar"/>
+                    android:src="@drawable/icon_telephone"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

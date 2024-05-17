@@ -36,6 +36,7 @@ class PerfilUsuario : AppCompatActivity() {
     private lateinit var telefonoPerfil: TextView
     private lateinit var fechaNacimientoPerfil: TextView
     private lateinit var nombresPerfil: EditText
+    private lateinit var nombrePerfil: TextView
     private lateinit var apellidosPerfil: EditText
     private lateinit var edadPerfil: EditText
     private lateinit var domicilioPerfil: EditText
@@ -95,6 +96,7 @@ class PerfilUsuario : AppCompatActivity() {
         correoPerfil = findViewById(R.id.Correo_Perfil)
         uidPerfil = findViewById(R.id.Uid_Perfil)
         nombresPerfil = findViewById(R.id.Nombres_Perfil)
+        nombrePerfil = findViewById(R.id.Nombre_Perfil)
         apellidosPerfil = findViewById(R.id.Apellidos_Perfil)
         edadPerfil = findViewById(R.id.Edad_Perfil)
         telefonoPerfil = findViewById(R.id.Telefono_Perfil)
@@ -137,6 +139,7 @@ class PerfilUsuario : AppCompatActivity() {
 
                     // Seteo de datos
                     uidPerfil.text = uid
+                    nombrePerfil.text = nombre
                     nombresPerfil.setText(nombre)
                     apellidosPerfil.setText(apellidos)
                     correoPerfil.text = correo

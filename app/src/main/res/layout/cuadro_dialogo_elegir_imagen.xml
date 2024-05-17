@@ -33,7 +33,9 @@
                 android:layout_width="70dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:src="@drawable/icon_calendar"/>
+                android:paddingTop="6dp"
+                android:tint="@color/black700"
+                android:src="@drawable/icon_galerys"/>
 
             <!--Botón-->
             <Button
@@ -43,6 +45,8 @@
                 android:fontFamily="@font/opensans"
                 android:layout_gravity="center"
                 android:layout_width="180dp"
+                android:textSize="16dp"
+                android:backgroundTint="@color/red300"
                 android:layout_height="wrap_content"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -60,7 +64,8 @@
                 android:layout_width="70dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:src="@drawable/icon_calendar"/>
+                android:tint="@color/black700"
+                android:src="@drawable/photocam"/>
 
             <!--Botón-->
             <Button
@@ -70,6 +75,8 @@
                 android:fontFamily="@font/opensans"
                 android:layout_gravity="center"
                 android:layout_width="180dp"
+                android:backgroundTint="@color/red300"
+                android:textSize="16dp"
                 android:layout_height="wrap_content"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

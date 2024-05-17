@@ -83,7 +83,6 @@ class Login : AppCompatActivity() {
 
                     val user = firebaseAuth.currentUser!!
                     startActivity(Intent(this, MenuPrincipal::class.java))
-                    Toast.makeText(this, "Bienvenido(a) ${user.displayName} ", Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 else{

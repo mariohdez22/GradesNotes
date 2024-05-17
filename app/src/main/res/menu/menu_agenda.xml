@@ -10,9 +10,13 @@
         app:showAsAction="ifRoom">
     </item>
 
+    <!--
+    626262
+    -->
+
     <item
         android:id="@+id/ExtraerTexto"
-        android:icon="@drawable/icon_delete"
+        android:icon="@drawable/icon_pluses"
         android:title="@string/AgregarNotaBD"
         android:visible="false"
         app:showAsAction="ifRoom">
@@ -20,7 +24,7 @@
 
     <item
         android:id="@+id/LimpiarDibujo"
-        android:icon="@drawable/icon_apunte"
+        android:icon="@drawable/icon_eraser"
         android:title="@string/AgregarNotaBD"
         android:visible="false"
         app:showAsAction="ifRoom">
